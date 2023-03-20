@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, FlatList, Image, Text, TextInput, View } from "react-native";
+import { Button, FlatList, Image, Pressable, Text, TextInput, View } from "react-native";
 const Home = () => {
 	const [searchText, setSearchText] = useState("");
 
@@ -18,6 +18,10 @@ const Home = () => {
 			});
 	};
 
+	const handleClick = slug => {
+		alert(slug)
+	}
+
 	return (
 		<View style={style.page}>
 			<View style={style.searchBAr}>
@@ -32,11 +36,13 @@ const Home = () => {
 				style={style.list}
 				data={games}
 				renderItem={({ item }) => (
+					<Pressable onPress={ () => { handleClick(item.slug)}} >
 					<View style={style.listItem}>
 						<Image source={{uri: item.background_image}} style={style.listImage}></Image>
 						<Text>{item.name}</Text>
 						<Text>Note: {item.rating}</Text>
 					</View>
+					</Pressable>
 				)}
 				keyExtractor={(item) => item.id}
 			></FlatList>
