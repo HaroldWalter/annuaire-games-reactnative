@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, FlatList, Text, TextInput, View } from "react-native";
 const Home = () => {
+	const [searchText, setSearchText] = useState('');
+
 	const [games, setGames] = useState([
 		{ id: 1, name: "Jeux 1", rating: 4.6 },
 		{ id: 2, name: "Jeux 2", rating: 3.5 },
@@ -10,11 +12,17 @@ const Home = () => {
 		{ id: 6, name: "Jeux 6", rating: 5 },
 	]);
 
+		const handleSearch = () => {
+			alert("La recherche est lancée !");
+		}
 	return (
 		<View style={style.page}>
 		<View style={style.searchBAr}>
-			<TextInput style={style.searchInput}></TextInput>
-			<Button title="Chercher"></Button>
+			<TextInput style={style.searchInput}
+				onChangeText={setSearchText}
+				value={searchText}>
+			</TextInput>
+			<Button title="Chercher" onPress={handleSearch}></Button>
 		</View>
 		<FlatList style={style.list} data={games} renderItem={ ({item}) => (
 			<View style={style.listItem}>
