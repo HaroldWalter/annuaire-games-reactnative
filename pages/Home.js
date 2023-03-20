@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, FlatList, Image, Pressable, Text, TextInput, View } from "react-native";
-const Home = () => {
+const Home = ({navigation}) => {
 	const [searchText, setSearchText] = useState("");
 
 	const [games, setGames] = useState([]);
@@ -19,7 +19,7 @@ const Home = () => {
 	};
 
 	const handleClick = slug => {
-		alert(slug)
+		navigation.push('Details', {slug});
 	}
 
 	return (
