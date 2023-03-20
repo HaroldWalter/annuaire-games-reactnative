@@ -32,6 +32,7 @@ export default Details = ({ navigation, route }) => {
 				<ScrollView style={style.overlay}>
 					<Text>{game.name}</Text>
 					<Text>{game.description.replace(/<[^>]*>/g, "")}</Text>
+               <Text>Rating: {game.rating}</Text>
 				</ScrollView>
          {/* <Text>essai</Text> */}
 
