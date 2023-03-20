@@ -1,37 +1,44 @@
 import React, { useState } from "react";
-import { Button, FlatList, Text, TextInput, View } from "react-native";
+import { Button, FlatList, Image, Text, TextInput, View } from "react-native";
 const Home = () => {
-	const [searchText, setSearchText] = useState('');
+	const [searchText, setSearchText] = useState("");
 
-	const [games, setGames] = useState([
-		{ id: 1, name: "Jeux 1", rating: 4.6 },
-		{ id: 2, name: "Jeux 2", rating: 3.5 },
-		{ id: 3, name: "Jeux 3", rating: 4.2 },
-		{ id: 4, name: "Jeux 4", rating: 1.5 },
-		{ id: 5, name: "Jeux 5", rating: 3.7 },
-		{ id: 6, name: "Jeux 6", rating: 5 },
-	]);
+	const [games, setGames] = useState([]);
 
-		const handleSearch = () => {
-			alert("La recherche est lancée !");
-		}
+	const handleSearch = () => {
+		const url = "https://www.formacitron.com/games-api-fallback/games/";
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				setGames(data.results);
+			})
+			.catch(() => {
+				alert("Une erreur est survenue");
+			});
+	};
+
 	return (
 		<View style={style.page}>
-		<View style={style.searchBAr}>
-			<TextInput style={style.searchInput}
-				onChangeText={setSearchText}
-				value={searchText}>
-			</TextInput>
-			<Button title="Chercher" onPress={handleSearch}></Button>
-		</View>
-		<FlatList style={style.list} data={games} renderItem={ ({item}) => (
-			<View style={style.listItem}>
-				<Text>{item.name}</Text>
-				<Text>Note: {item.rating}</Text>
+			<View style={style.searchBAr}>
+				<TextInput
+					style={style.searchInput}
+					onChangeText={setSearchText}
+					value={searchText}
+				></TextInput>
+				<Button title="Chercher" onPress={handleSearch}></Button>
 			</View>
-		)} keyExtractor={(item) => item.id}>
-
-		</FlatList>
+			<FlatList
+				style={style.list}
+				data={games}
+				renderItem={({ item }) => (
+					<View style={style.listItem}>
+						<Image source={{uri: item.background_image}} style={style.listImage}></Image>
+						<Text>{item.name}</Text>
+						<Text>Note: {item.rating}</Text>
+					</View>
+				)}
+				keyExtractor={(item) => item.id}
+			></FlatList>
 		</View>
 	);
 };
@@ -49,13 +56,20 @@ const style = {
 		borderColor: "#dddddd",
 	},
 	list: {
-		flex:1,
+		flex: 1,
 	},
 	listItem: {
-		backgroundColor: '#e0e0e0',
-		margin:2,
+		backgroundColor: "#e0e0e0",
+		margin: 2,
 		padding: 15,
+		flexDirection : "row"
+	},
+	listImage: { 
+		width: 75,
+		resizeMode: 'center',
+		marginRight:10
 	}
+
 };
 
 export default Home;
