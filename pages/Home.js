@@ -8,7 +8,7 @@ import {
 	TextInput,
 	View,
 } from "react-native";
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 const Home = ({ navigation }) => {
@@ -17,7 +17,6 @@ const Home = ({ navigation }) => {
 	const [games, setGames] = useState([]);
 
 	const bookmarks = useSelector((state) => state.games);
-
 
 	const handleSearch = () => {
 		const apiKey = "b1c7381cdcf6480c974e4180affadf92";
@@ -38,13 +37,15 @@ const Home = ({ navigation }) => {
 		navigation.push("Details", { slug });
 	};
 
-
 	const isBookmarked = (game) =>
 		bookmarks.find((bookmark) => bookmark.id == game.id) !== undefined;
 
 	return (
 		<View style={style.page}>
-			<View style={style.searchBAr}>
+			<Button title="Chercher des boutiques" onPress={() => {
+					navigation.push("Shop");
+				}}></Button>
+			<View style={style.searchBar}>
 				<TextInput
 					style={style.searchInput}
 					onChangeText={setSearchText}
@@ -68,8 +69,16 @@ const Home = ({ navigation }) => {
 							></Image>
 							<Text>{item.name}</Text>
 							<Text>Note: {item.rating}</Text>
-							{ isBookmarked(item) ? (
-							<FontAwesome name="star" size={15} color="#ffd700" style= {style.star}/>) : (<></>) }
+							{isBookmarked(item) ? (
+								<FontAwesome
+									name="star"
+									size={15}
+									color="#ffd700"
+									style={style.star}
+								/>
+							) : (
+								<></>
+							)}
 						</View>
 					</Pressable>
 				)}
@@ -89,7 +98,7 @@ const style = {
 	page: {
 		flex: 1,
 	},
-	searchBAr: {
+	searchBar: {
 		flexDirection: "row",
 	},
 	searchInput: {
@@ -112,10 +121,10 @@ const style = {
 		marginRight: 10,
 	},
 
-	star : {
+	star: {
 		marginLeft: 10,
-		paddingTop: 3
-	}
+		paddingTop: 3,
+	},
 };
 
 export default Home;

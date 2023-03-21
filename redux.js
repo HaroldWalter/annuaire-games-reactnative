@@ -32,7 +32,7 @@ const gameSlices = createSlice({
 	reducers: {
 		addGame: (state, action) => {
 			state.push(action.payload);
-			// save(state);
+			save(state);
 			return state;
 		},
 		removeGame: (state, action) => {

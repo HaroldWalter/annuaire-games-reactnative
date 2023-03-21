@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Provider, useDispatch } from "react-redux";
-import { store } from "./redux";
 import Router from './components/Router';
+import { store } from "./redux";
 
-const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
@@ -12,9 +11,3 @@ export default function App() {
 		</Provider>
 	);
 }
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-	},
-});
