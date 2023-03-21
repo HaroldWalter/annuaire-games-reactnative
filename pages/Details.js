@@ -6,7 +6,7 @@ export default Details = ({ navigation, route }) => {
 	console.log(route.params.slug);
 
 	const slug = route.params.slug;
-	const [game, setGame] = useState();
+	const [game, setGame] = useState(null);
 
 	useEffect(() => {
 		const apiKey = "b1c7381cdcf6480c974e4180affadf92";
@@ -49,7 +49,7 @@ export default Details = ({ navigation, route }) => {
 	return (
 		<View style={style.page}>
 
-			<Image source={game !=null && { uri: game.background_image }} style={style.bg}></Image>
+			{game !=null && (<Image source={{ uri: game.background_image }} style={style.bg}></Image>)}
 			<ScrollView style={style.overlay}>
 				<Text>{game!=null && game.name}</Text>
 				<Text>{game!=null && game.description.replace(/<[^>]*>/g, "")}</Text>
