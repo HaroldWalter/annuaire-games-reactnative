@@ -1,11 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Text, Image, View, ScrollView } from "react-native";
+import { Button, Text, Image, View, ScrollView } from "react-native";
 
 export default Details = ({ navigation, route }) => {
 	console.log(route.params.slug);
 
 	const slug = route.params.slug;
-	const [game, setGame] = useState({});
+	const [game, setGame] = useState();
 
 	useEffect(() => {
 		const apiKey = "b1c7381cdcf6480c974e4180affadf92";
@@ -19,32 +20,55 @@ export default Details = ({ navigation, route }) => {
 				alert("Une erreur est survenue");
 			});
 	}, []);
-	if (game == null)
-		return (
-			<View style={style.page}>
-				<Text>Chargement du jeu {route.param.slug}</Text>
-			</View>
-		);
-	else {
-		return (
-			<View style={style.page}>
-				<Image source={{ uri: game.background_image }} style={style.bg}></Image>
-				<ScrollView style={style.overlay}>
-					<Text>{game.name}</Text>
-					<Text>{game.description.replace(/<[^>]*>/g, "")}</Text>
-               <Text>Rating: {game.rating}</Text>
-				</ScrollView>
-         {/* <Text>essai</Text> */}
 
-			</View>
-		);
-	}
+	const bookmarks = useSelector((state) => state.games);
+	const dispatch = useDispatch();
+
+	const handlePressAdd = () => {
+		dispatch({
+			type: "game/addGame",
+			payload: {
+				slug: game.slug,
+				name: game.name,
+				background_image: game.background_image,
+				id: game.id,
+			},
+		});
+	};
+
+	const handlePressRemove = () => {
+		dispatch({
+			type: "game/removeGame",
+			payload: game.id,
+		});
+	};
+	// Vérifier si le jeu en cours est dans les bookmarks
+	const isBookmarked = () =>
+		bookmarks.find((bookmark) => bookmark.id == game.id) !== undefined;
+
+	return (
+		<View style={style.page}>
+
+			<Image source={game !=null && { uri: game.background_image }} style={style.bg}></Image>
+			<ScrollView style={style.overlay}>
+				<Text>{game!=null && game.name}</Text>
+				<Text>{game!=null && game.description.replace(/<[^>]*>/g, "")}</Text>
+				{/* <Text>{game.description}</Text> */}
+				<Text>Rating: {game!=null && game.rating}</Text>
+			</ScrollView>
+			{game != null && isBookmarked() ? (
+				<Button title="⭐ Retirer" onPress={handlePressRemove}></Button>
+			) : (
+				<Button title="⭐ Ajouter" onPress={handlePressAdd}></Button>
+			)}
+		</View>
+	);
 };
 
 const style = {
 	page: {
 		flex: 1,
-		},
+	},
 	bg: {
 		flex: 1,
 		resizeMode: "cover",

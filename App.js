@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
+import Bookmarks from "./pages/Bookmarks";
 import Details from "./pages/Details";
 import Home from "./pages/Home";
 
@@ -24,6 +25,7 @@ export default function App() {
 						component={Details}
 						options={{ title: "Détails" }}
 					/>
+					<Stack.Screen name="Bookmarks" component={Bookmarks} options={{title: "Mes jeux"}} />
 				</Stack.Navigator>
 				<StatusBar hidden={true} style="auto" />
 			</NavigationContainer>
