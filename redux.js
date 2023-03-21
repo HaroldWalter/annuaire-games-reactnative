@@ -1,5 +1,15 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const save = (bookmarks) => {
+	AsyncStorage.setItem("bookmarks", JSON.stringify(bookmarks))
+		.then(() => {
+			console.log("Sauvegarde ok");
+		})
+		.catch((err) => {
+			console.log(err.message);
+		});
+};
 
 const gameSlices = createSlice({
 	name: "game",
@@ -22,6 +32,7 @@ const gameSlices = createSlice({
 	reducers: {
 		addGame: (state, action) => {
 			state.push(action.payload);
+			// save(state);
 			return state;
 		},
 		removeGame: (state, action) => {
@@ -29,13 +40,17 @@ const gameSlices = createSlice({
 			// console.log(action.payload);
 			const newState = state.filter((item) => item.id !== action.payload);
 			// console.log(newState);
-			return newState;
+			state = newState;
+			save(state);
+			return state;
 		},
-		
+
+		replaceAll: (state, action) => {
+			state = action.payload;
+			return state;
+		},
 	},
 });
-
-
 
 export const store = configureStore({
 	reducer: {
