@@ -1,34 +1,14 @@
-import { Provider } from "react-redux";
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./redux";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import Bookmarks from "./pages/Bookmarks";
-import Details from "./pages/Details";
-import Home from "./pages/Home";
+import Router from './components/Router';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
 		<Provider store={store}>
-			<NavigationContainer>
-				<Stack.Navigator>
-					<Stack.Screen
-						name="Home"
-						component={Home}
-						options={{ headerShown: false }}
-					/>
-					<Stack.Screen
-						name="Details"
-						component={Details}
-						options={{ title: "Détails" }}
-					/>
-					<Stack.Screen name="Bookmarks" component={Bookmarks} options={{title: "Mes jeux"}} />
-				</Stack.Navigator>
-				<StatusBar hidden={true} style="auto" />
-			</NavigationContainer>
+			<Router></Router>
 		</Provider>
 	);
 }
